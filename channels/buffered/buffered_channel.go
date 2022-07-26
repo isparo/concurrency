@@ -15,24 +15,20 @@ func main() {
 
 	go func() {
 		fmt.Println("readaer 1")
-
 		for message := range exampleChn {
 			time.Sleep(2 * time.Second)
 			data := fmt.Sprintf("value: %s - buffer size: %d", message, len(exampleChn))
 			fmt.Println("(reader 1) ", data)
 		}
-
 	}()
 
 	go func() {
 		fmt.Println("readaer 2")
-
 		for message := range exampleChn {
 			time.Sleep(2 * time.Second)
 			data := fmt.Sprintf("value: %s - buffer size: %d", message, len(exampleChn))
 			fmt.Println("(reader 2) ", data)
 		}
-
 	}()
 
 	var wg sync.WaitGroup
@@ -40,24 +36,19 @@ func main() {
 
 	go func() {
 		fmt.Println("sender 1")
-
 		for i := 0; i < 10; i++ {
 			time.Sleep(1 * time.Second)
 			exampleChn <- fmt.Sprintf("%d", i)
 		}
-
 		defer wg.Done()
-
 	}()
 
 	go func() {
 		fmt.Println("sender 2")
-
 		for i := 10; i < 20; i++ {
 			time.Sleep(1 * time.Second)
 			exampleChn <- fmt.Sprintf("%d", i)
 		}
-
 		defer wg.Done()
 	}()
 
@@ -68,21 +59,16 @@ func main() {
 			time.Sleep(1 * time.Second)
 			exampleChn <- fmt.Sprintf("%d", i)
 		}
-
 		defer wg.Done()
 	}()
 
 	go func() {
 		fmt.Println("sender 4")
-
 		for i := 30; i < 40; i++ {
 			time.Sleep(1 * time.Second)
 			exampleChn <- fmt.Sprintf("%d", i)
 		}
-
 		defer wg.Done()
 	}()
-
 	wg.Wait()
-
 }
